@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYU YONG SU | 수학의 미래</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #39ff14;
+            --neon-amber: #ffaa00;
+            --deep-space: #050505;
+        }
+
+        body {
+            background-color: var(--deep-space);
+            color: #fff;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        /* 배경 그라데이션 및 파티클 효과 */
+        .bg-gradient {
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #050505 100%);
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        /* 글래스모피즘 카드 스타일 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card:hover, .glass-card:active {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+        }
+
+        /* 커리큘럼 오버레이 효과 */
+        .curriculum-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            z-index: 10;
+        }
+
+        .group:hover .curriculum-overlay, 
+        .group:active .curriculum-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Q&A 섹션 특수 애니메이션 */
+        @keyframes float-side {
+            0%, 100% { transform: translateX(0); opacity: 0.7; }
+            50% { transform: translateX(10px); opacity: 1; }
+        }
+
+        .reserve-guide {
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .qa-section:hover .reserve-guide,
+        .qa-section:active .reserve-guide {
+            opacity: 1;
+            animation: float-side 1.5s infinite ease-in-out;
+        }
+
+        .qa-section:hover .cta-button,
+        .qa-section:active .cta-button {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(0, 243, 255, 0.6); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 243, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 243, 255, 0); }
+        }
+
+        .neon-text-cyan { text-shadow: 0 0 10px var(--neon-cyan); }
+        .neon-text-purple { text-shadow: 0 0 10px var(--neon-purple); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .animate-pulse-soft {
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        .cta-button {
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* 메인 버튼 그리드 레이아웃 */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        @media (min-width: 640px) {
+            .btn-grid {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="particles"></div>
+
+    <!-- 메인 히어로 섹션 -->
+    <header class="min-h-screen flex flex-col justify-center items-center px-6 text-center">
+        <div class="mb-4 animate-pulse-soft">
+            <span class="text-[10px] sm:text-xs tracking-[0.3em] sm:tracking-[0.5em] text-cyan-400 font-orbitron uppercase">Dongsan High School Math Specialist</span>
+        </div>
+        <h1 class="text-5xl sm:text-7xl md:text-8xl font-bold font-orbitron mb-6 tracking-tighter leading-tight">
+            RYU <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">YONG SU</span>
+        </h1>
+        <p class="text-base sm:text-xl md:text-2xl font-light text-gray-400 max-w-2xl leading-relaxed">
+            수학적 사고의 임계점을 돌파하다.<br class="hidden sm:block">
+            <span class="text-white font-semibold">동산고 수학의 마침표.</span>
+        </p>
+        
+        <!-- 주요 액션 버튼 그룹 -->
+        <div class="mt-12 btn-grid max-w-lg sm:max-w-5xl px-4">
+            <a href="#schedule" class="px-3 sm:px-8 py-4 glass-card border-cyan-500 text-cyan-400 font-bold tracking-tighter sm:tracking-widest uppercase text-[10px] sm:text-sm no-underline flex items-center justify-center">
+                View Schedule
+            </a>
+            <a href="https://ryutube.daechion.com/crm/lectures" target="_blank" class="px-3 sm:px-8 py-4 glass-card border-purple-500 text-purple-400 font-bold tracking-tighter sm:tracking-widest uppercase text-[10px] sm:text-sm no-underline flex items-center justify-center">
+                룡샘 관리페이지
+            </a>
+            <a href="https://winsanai-sudo.github.io/sys/system1.html" target="_blank" class="px-3 sm:px-8 py-4 glass-card border-green-500 text-green-400 font-bold tracking-tighter sm:tracking-widest uppercase text-[10px] sm:text-sm no-underline flex items-center justify-center">
+                수업 관리시스템
+            </a>
+            <a href="https://winsanai-sudo.github.io/page1/page4.html" target="_blank" class="px-3 sm:px-8 py-4 glass-card border-amber-500 text-amber-500 font-bold tracking-tighter sm:tracking-widest uppercase text-[10px] sm:text-sm no-underline flex items-center justify-center">
+                랜딩페이지
+            </a>
+        </div>
+    </header>
+
+    <!-- 스케줄 및 정보 섹션 -->
+    <main id="schedule" class="max-w-6xl mx-auto px-6 py-12 sm:py-24">
+        
+        <div class="grid md:grid-cols-2 gap-6 sm:gap-8 mb-16 sm:mb-20">
+            <!-- 31기 수업 정보 -->
+            <div class="glass-card p-6 sm:p-8 group">
+                <div class="curriculum-overlay">
+                    <p class="text-cyan-400 font-orbitron tracking-widest text-[10px] sm:text-sm mb-4">YEARLY CURRICULUM</p>
+                    <div class="space-y-4 text-center">
+                        <div>
+                            <p class="text-gray-400 text-[10px] mb-1">1학기</p>
+                            <p class="text-xl sm:text-2xl font-bold text-white neon-text-cyan">공수1, 공수2</p>
+                        </div>
+                        <div class="w-10 h-[1px] bg-white/20 mx-auto"></div>
+                        <div>
+                            <p class="text-gray-400 text-[10px] mb-1">2학기</p>
+                            <p class="text-xl sm:text-2xl font-bold text-white neon-text-cyan">대수</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-6 sm:mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-orbitron font-bold text-white">31기 <span class="text-xs font-normal text-cyan-400 ml-2">Class Info</span></h2>
+                    <div class="w-8 sm:w-12 h-[2px] bg-cyan-500"></div>
+                </div>
+                <ul class="space-y-4 sm:space-y-6">
+                    <li class="flex items-start">
+                        <div class="mr-3 sm:mr-4 mt-1 text-cyan-500 font-orbitron text-sm sm:text-base">01</div>
+                        <div>
+                            <p class="text-gray-400 text-[9px] sm:text-xs uppercase tracking-widest mb-1">Thursday Session</p>
+                            <p class="text-lg sm:text-xl font-bold text-white">오후 6:40 — 10:00</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="mr-3 sm:mr-4 mt-1 text-cyan-500 font-orbitron text-sm sm:text-base">02</div>
+                        <div>
+                            <p class="text-gray-400 text-[9px] sm:text-xs uppercase tracking-widest mb-1">Sunday Session</p>
+                            <p class="text-lg sm:text-xl font-bold text-white">오후 6:40 — 10:00</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mt-6 pt-4 border-t border-white/5 text-[9px] sm:text-xs text-gray-500 animate-pulse">
+                    * 터치/호버 시 커리큘럼을 확인할 수 있습니다.
+                </div>
+            </div>
+
+            <!-- 32기 수업 정보 -->
+            <div class="glass-card p-6 sm:p-8 group">
+                <div class="curriculum-overlay">
+                    <p class="text-purple-400 font-orbitron tracking-widest text-[10px] sm:text-sm mb-4">YEARLY CURRICULUM</p>
+                    <div class="space-y-4 text-center">
+                        <div>
+                            <p class="text-gray-400 text-[10px] mb-1">1학기</p>
+                            <p class="text-xl sm:text-2xl font-bold text-white neon-text-purple">미적분1</p>
+                        </div>
+                        <div class="w-10 h-[1px] bg-white/20 mx-auto"></div>
+                        <div>
+                            <p class="text-gray-400 text-[10px] mb-1">2학기</p>
+                            <p class="text-xl sm:text-2xl font-bold text-white neon-text-purple">확통, 미적분2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-6 sm:mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-orbitron font-bold text-white">32기 <span class="text-xs font-normal text-purple-400 ml-2">Class Info</span></h2>
+                    <div class="w-8 sm:w-12 h-[2px] bg-purple-500"></div>
+                </div>
+                <ul class="space-y-4 sm:space-y-6">
+                    <li class="flex items-start">
+                        <div class="mr-3 sm:mr-4 mt-1 text-purple-500 font-orbitron text-sm sm:text-base">01</div>
+                        <div>
+                            <p class="text-gray-400 text-[9px] sm:text-xs uppercase tracking-widest mb-1">Tuesday Session</p>
+                            <p class="text-lg sm:text-xl font-bold text-white">오후 6:40 — 10:00</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="mr-3 sm:mr-4 mt-1 text-purple-500 font-orbitron text-sm sm:text-base">02</div>
+                        <div>
+                            <p class="text-gray-400 text-[9px] sm:text-xs uppercase tracking-widest mb-1">Sunday Session</p>
+                            <p class="text-lg sm:text-xl font-bold text-white">오후 2:40 — 6:00</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mt-6 pt-4 border-t border-white/5 text-[9px] sm:text-xs text-gray-500 animate-pulse">
+                    * 터치/호버 시 커리큘럼을 확인할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q&A 세션 섹션 -->
+        <div class="glass-card p-8 sm:p-12 relative overflow-hidden qa-section">
+            <div class="absolute top-0 right-0 p-4 opacity-5 sm:opacity-10">
+                <svg width="100" height="100" class="sm:w-[150px] sm:h-[150px]" viewBox="0 0 24 24" fill="white"><path d="M12 2L1 21h22L12 2zm0 3.45l8.27 14.55H3.73L12 5.45z"/></svg>
+            </div>
+            
+            <h2 class="text-3xl sm:text-4xl font-bold mb-10 text-center font-orbitron neon-text-cyan tracking-tight">Q&A SESSION</h2>
+            
+            <div class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+                <div class="text-center p-4 sm:p-6 border-b sm:border-b-0 sm:border-r border-white/5 last:border-0">
+                    <p class="text-cyan-400 text-[10px] sm:text-sm font-orbitron mb-2">WEDNESDAY</p>
+                    <p class="text-xl sm:text-2xl font-bold">18:30 — 22:00</p>
+                </div>
+                <div class="text-center p-4 sm:p-6 border-b sm:border-b-0 sm:border-r border-white/5 last:border-0">
+                    <p class="text-cyan-400 text-[10px] sm:text-sm font-orbitron mb-2">SATURDAY</p>
+                    <p class="text-xl sm:text-2xl font-bold">16:00 — 22:00</p>
+                </div>
+                <div class="text-center p-4 sm:p-6">
+                    <p class="text-cyan-400 text-[10px] sm:text-sm font-orbitron mb-2">SUNDAY</p>
+                    <p class="text-xl sm:text-2xl font-bold">13:00 — 18:00</p>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center">
+                <div class="inline-block bg-white/5 rounded-full px-5 py-2 text-[11px] sm:text-sm text-gray-300 mb-10 border border-white/10">
+                    * 모든 질답 세션은 <span class="text-cyan-400 font-bold">사전 예약</span> 후 진행됩니다.
+                </div>
+                
+                <div class="relative flex flex-col items-center justify-center">
+                    <!-- 예약 버튼: 중앙 배치 -->
+                    <a href="https://pf.kakao.com/_xbVyyn" target="_blank" class="cta-button px-8 sm:px-12 py-4 sm:py-5 rounded-full text-white font-bold text-base sm:text-lg shadow-xl no-underline z-10 w-full sm:w-auto">
+                        채널톡으로 예약하기
+                    </a>
+                    
+                    <!-- 가이드 문구: 버튼 옆/아래 배치 -->
+                    <div class="reserve-guide mt-4 sm:mt-0 sm:absolute sm:left-1/2 sm:ml-52 whitespace-nowrap">
+                        <p class="text-cyan-400 font-orbitron text-[9px] sm:text-[10px] tracking-[0.3em] sm:tracking-[0.4em] font-bold uppercase">Click to Reserve Now</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="py-12 border-t border-white/5 text-center px-6">
+        <p class="text-gray-500 text-[10px] sm:text-xs font-orbitron">© 2025 RYU YONG SU MATH ACADEMY. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <!-- 스크립트: 부드러운 스크롤 효과 -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.hash !== "") {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
